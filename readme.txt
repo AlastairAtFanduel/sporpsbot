@@ -7,6 +7,9 @@ http://www.fantasyfootballnerd.com/create-account
 http://blog.burntsushi.net/nfl-live-statistics-with-python/
 http://fantasydata.com/pricing/nfl-data-api.aspx
 http://developer.sportradar.us/api_pricing
+https://en.wikipedia.org/wiki/Central_limit_theorem
+https://en.wikipedia.org/wiki/Expected_value
+https://en.wikipedia.org/wiki/Bayesian_probability
 
 Teams 
 
