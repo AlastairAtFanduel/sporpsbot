@@ -1,3 +1,4 @@
+
 http://www.glicko.net/research/glickman-vandyk.pdf
 http://www.glicko.net/glicko/glicko2.pdf
 http://www.nfl.com/injuries?week=1
