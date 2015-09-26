@@ -7,6 +7,7 @@ import gzip
 from nfldata2.common import game_file_path
 from nfldata2.players import load_players
 from nfldata2.schedule import get_latest_schedule
+from nfldata2.grouped_stats import parse_grouped_stats
 
 PLAYERS = load_players()
 
@@ -19,28 +20,32 @@ def get_game_data(game_id):
 
 
 
+
 def parse_game_file(game_id):
     raw_data = get_game_data(game_id)
     data = json.loads(raw_data)[game_id]
 
-    import pdb; pdb.set_trace()
+    home = self.data['home']['abbr']
+    away = self.data['away']['abbr']
+
+    home_score = int(self.data['home']['score']['T'])
+    away_score = int(self.data['away']['score']['T'])
+
+    home_stats = parse_grouped_stats(self.data['home']['stats'])
+    away_stats = parse_grouped_stats(self.data['away']['stats'])
 
     drives = self.data['drives']
-    for drive_id, drive in drives.iteritems():
-        plays = drive['plays']
+    for drive_id, drive_data in sorted(drives.items()):
+        import pdb; pdb.set_trace()
+        plays = drive_data['plays']
     
     play_events = data['players']  #?
 
-    self.home = self.data['home']['abbr']
-    self.away = self.data['away']['abbr']
 
-    home_stats = parse_team_stats(self.data['home']['stats']['team'])
-    away_stats = parse_team_stats(self.data['away']['stats']['team'])
 
     self.data['qtr']
     self.data['clock']
-    int(self.data['home']['score']['T'])
-    int(self.data['away']['score']['T'])
+
 
 
 
@@ -71,28 +76,7 @@ def parse_game_file(game_id):
 # Team sats
 #---
 
-team_stats_nt = namedtuple('team_stats_nt',
-                       ['first_downs', 'total_yds', 'passing_yds',
-                        'rushing_yds', 'penalty_cnt', 'penalty_yds',
-                        'turnovers', 'punt_cnt', 'punt_yds', 'punt_avg',
-                        'pos_time'])
 
-def parse_team_stats(data):
-    """
-    Takes a team stats JSON entry and converts it to a TeamStats namedtuple.
-    """
-    return team_stats_nt(
-        first_downs=int(data['totfd']),
-        total_yds=int(data['totyds']),
-        passing_yds=int(data['pyds']),
-        rushing_yds=int(data['ryds']),
-        penalty_cnt=int(data['pen']),
-        penalty_yds=int(data['penyds']),
-        turnovers=int(data['trnovr']),
-        punt_cnt=int(data['pt']),
-        punt_yds=int(data['ptyds']),
-        punt_avg=int(data['ptavg']),
-        pos_time=PossessionTime(data['top']))
 
 
 parse_game_file(2015092400)
