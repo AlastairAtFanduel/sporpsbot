@@ -1,3 +1,5 @@
+from collections import namedtuple
+from functools import partial
 #List of plays
 #List of drives
 
@@ -63,14 +65,14 @@
 #X vs Y in cat z.  Rate them both.  Just take an average.
     # What is the most likley
 
-def parse_dataset(cls, data):   # Could map the data here
+def parse_dataset(cls, data_dict):   # Could map the data here
     return cls(**data_dict)
 
 def mapping_parse(mapping_dict, target, data):
     data_dict = {}
     for fld, mappings in mapping_dict.items():
         key, deseriliser = mappings
-        if deseriliser not None:
+        if deseriliser is not None:
             data_dict[fld] = deseriliser(data[key])
         else:
             data_dict[fld] = data[key]
@@ -80,7 +82,7 @@ def mapping_parse(mapping_dict, target, data):
 
 state_flds = ['yrdln', 'team', 'qtr', 'time']
 state_nt = namedtuple('state_nt', state_flds)
-parse_state = partial(parse_dataset, state_flds)
+parse_state = partial(parse_dataset, state_nt)
 
 
 def parse_plays(plays_data):
@@ -100,7 +102,7 @@ drive_mapping = {
     'penalty_yards': ('penyds' , None),
     'yards_gained': ('ydsgained' , None),
 }
-drive = namedtuple('drive')
+drive_nt = namedtuple('drive_nt', drive_mapping.keys())
 
 def parse_drives(drive_data):
     drives = []
@@ -109,7 +111,7 @@ def parse_drives(drive_data):
             continue
 
         drive_data['id'] = drive_id
-        drive = mapping_parse(drive_mapping, drive, drive_data)
+        drive = mapping_parse(drive_mapping, drive_nt, drive_data)
         drives.append(drive)
 
     return drives

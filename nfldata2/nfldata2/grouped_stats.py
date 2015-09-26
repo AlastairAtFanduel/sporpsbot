@@ -106,7 +106,6 @@ punting_stats_flds = ['player_id', 'name', 'i20', 'lng', 'avg', 'pts', 'yds']
 punting_stats_nt = namedtuple('punting_stats_nt', punting_stats_flds)
 parse_punting_stats = partial(parse_dataset_with_player_id, punting_stats_nt)
 
-print "foo"
 grouped_stats_map = {'kickret': parse_kick_return_stats,
                      'defense': parse_defense_stats,
                      'fumbles': parse_fumble_stats,
