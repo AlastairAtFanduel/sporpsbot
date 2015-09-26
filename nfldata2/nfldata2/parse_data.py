@@ -27,25 +27,21 @@ def parse_game_file(game_id):
     raw_data = get_game_data(game_id)
     data = json.loads(raw_data)[game_id]
 
-    assert self.data['qtr'] == 'Final'
+    assert data['qtr'] == 'Final'
 
     home_data = {}
-    home_data['name'] = self.data['home']['abbr']
-    home_data['score'] = int(self.data['home']['score']['T'])
-    home_stats_dict = generate_side_stats(game.stats_home)
-    home_data['stats'] = parse_grouped_stats(self.data['home']['stats'])
+    home_data['name'] = data['home']['abbr']
+    home_data['score'] = int(data['home']['score']['T'])
+    home_data['stats'] = parse_grouped_stats(data['home']['stats'])
     
     away_data = {}
-    away_data['name'] = self.data['away']['abbr']
-    away_data['score'] = int(self.data['away']['score']['T'])
-    away_stats_dict = generate_side_stats(game.stats_home)
-    away_data['stats'] = parse_grouped_stats(self.data['away']['stats'])
+    away_data['name'] = data['away']['abbr']
+    away_data['score'] = int(data['away']['score']['T'])
+    away_data['stats'] = parse_grouped_stats(data['away']['stats'])
 
-    game = game_nt(home=game_data_nt(*home_data*), away=game_data_nt(**away_data))
+    game = game_nt(home=game_data_nt(**home_data), away=game_data_nt(**away_data))
 
-
-    raw_drives = self.data['drives']
-    drives = parse_drives(raw_drives)
+    drives = parse_drives(data['drives'])
 
 
 def load_week(week, year=2015, phase='REG'):
@@ -59,7 +55,7 @@ def load_week(week, year=2015, phase='REG'):
     return [parse_game_file(game.game_id) for game in matching_games]
 
 
-parse_game_file(2015092400)
+parse_game_file("2015092400")
 
 
 

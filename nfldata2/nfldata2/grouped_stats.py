@@ -1,8 +1,9 @@
+from collections import namedtuple
 from functools import partial
 
 def parse_dataset_with_player_id(cls, data):   # Could map the data here
     parsed_data = []
-    for players_id, data_dict in data:
+    for player_id, data_dict in data.iteritems():
         obj = cls(player_id=player_id, **data_dict)
         parsed_data.append(obj)
     return parsed_data
@@ -17,7 +18,7 @@ parse_kick_return_stats = partial(parse_dataset_with_player_id, kickret_stats_nt
 #---
 # defense
 #---
-defense_stats_flds = ['player_id', 'name', 'ast', 'int', 'tkl', 'sk', 'ffum']
+defense_stats_flds = ['player_id', 'name', 'ast', 'int', 'tkl', 'sk', 'ffum']  #ast assisted tackle
 defense_stats_nt = namedtuple('defense_stats_nt', defense_stats_flds)
 parse_defense_stats = partial(parse_dataset_with_player_id, defense_stats_nt)
 
@@ -75,7 +76,7 @@ def parse_team_stats(data):
         punt_cnt=int(data['pt']),
         punt_yds=int(data['ptyds']),
         punt_avg=int(data['ptavg']),
-        pos_time=PossessionTime(data['top']))
+        pos_time=data['top'])
 
 #---
 # passing stats
@@ -103,22 +104,24 @@ parse_rushing_stats = partial(parse_dataset_with_player_id, rushing_stats_nt)
 #---
 punting_stats_flds = ['player_id', 'name', 'i20', 'lng', 'avg', 'pts', 'yds']
 punting_stats_nt = namedtuple('punting_stats_nt', punting_stats_flds)
-parse_punting_stats = partial(parse_dataset_with_player_id, passing_stats_nt)
+parse_punting_stats = partial(parse_dataset_with_player_id, punting_stats_nt)
 
+print "foo"
+grouped_stats_map = {'kickret': parse_kick_return_stats,
+                     'defense': parse_defense_stats,
+                     'fumbles': parse_fumble_stats,
+                     'kicking': parse_kicking_stats,
+                     'puntret': parse_puntret_stats,
+                     'team': parse_team_stats,
+                     'passing': parse_passing_stats,
+                     'receiving': parse_receiving_stats,
+                     'rushing': parse_rushing_stats,
+                     'punting': parse_punting_stats,
+                    }
 
-grouped_stats_map = [('kickret', parse_kick_return_stats), 
-                      ('defense', parse_defense_stats),
-                      ('fumbles', parse_fumble_stats), 
-                      ('kicking', parse_kicking_stats), 
-                      ('puntret', parse_puntret_stats, 
-                      ('team', parse_team_stats), 
-                      ('passing', parse_passing_stats), 
-                      ('receiving', parse_receiving_stats), 
-                      ('rushing', parse_rushing_stats), 
-                      ('punting', parse_punting_stats)]
 grouped_stats_nt = namedtuple('grouped_stats', grouped_stats_map.keys())
 
 def parse_grouped_stats(grouped_stats):
-    parsed_data_dict = {fld: parser(fld) for fld, parser in grouped_stats_map.items()}
+    parsed_data_dict = {fld: parser(grouped_stats[fld]) for fld, parser in grouped_stats_map.items()}
     grouped_stats = grouped_stats_nt(**parsed_data_dict)
     return grouped_stats
