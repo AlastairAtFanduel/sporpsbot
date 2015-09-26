@@ -1,3 +1,5 @@
+https://github.com/japerk/nltk-trainer
+http://text-processing.com/demo/sentiment/
 
 http://www.glicko.net/research/glickman-vandyk.pdf
 http://www.glicko.net/glicko/glicko2.pdf
@@ -78,4 +80,6 @@ This average 10 is a indicator of gd vs bad teams
 The position of dy is a network of everything that has touched it.
 
 
+Blance of players not too invested in any
 
+Each play
