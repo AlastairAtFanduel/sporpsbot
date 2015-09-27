@@ -1,7 +1,9 @@
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 from functools import partial
 
 def parse_dataset_with_player_id(cls, data):   # Could map the data here
+    if data is None:
+        data = defaultdict(int)
     parsed_data = []
     for player_id, data_dict in data.iteritems():
         obj = cls(player_id=player_id, **data_dict)
@@ -121,6 +123,6 @@ grouped_stats_map = {'kickret': parse_kick_return_stats,
 grouped_stats_nt = namedtuple('grouped_stats', grouped_stats_map.keys())
 
 def parse_grouped_stats(grouped_stats):
-    parsed_data_dict = {fld: parser(grouped_stats[fld]) for fld, parser in grouped_stats_map.items()}
+    parsed_data_dict = {fld: parser(grouped_stats.get(fld)) for fld, parser in grouped_stats_map.items()}
     grouped_stats = grouped_stats_nt(**parsed_data_dict)
     return grouped_stats

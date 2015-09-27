@@ -26,8 +26,7 @@ game_data_nt = namedtuple('game_data_nt', ['name', 'score', 'stats'])
 def parse_game_file(game_id):
     raw_data = get_game_data(game_id)
     data = json.loads(raw_data)[game_id]
-
-    assert data['qtr'] == 'Final'
+    assert data['qtr'] in ('Final', 'final overtime')
 
     home_data = {}
     home_data['name'] = data['home']['abbr']
@@ -42,20 +41,17 @@ def parse_game_file(game_id):
     game = game_nt(home=game_data_nt(**home_data), away=game_data_nt(**away_data))
 
     drives = parse_drives(data['drives'])
+    return game
 
 
 def load_week(week, year=2015, phase='REG'):
     schedule = get_latest_schedule()
 
     matching_games = []
-    for game in schedule.values:
-        if (game.year, game.kind, game.week) == (year, phase, week):
+    for game in schedule.values():
+        if (game['year'], game['season_type'], game['week']) == (year, phase, week):
             matching_games.append(game)
-
-    return [parse_game_file(game.game_id) for game in matching_games]
-
-
-parse_game_file("2015092400")
+    return [parse_game_file(game['eid']) for game in matching_games]
 
 
 

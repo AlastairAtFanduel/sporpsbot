@@ -84,6 +84,8 @@ parse_state = partial(parse_dataset, state_nt)
 
 
 def parse_plays(plays_data):
+    pass
+    x = """
     for play_id, play_data in sorted(plays_data.items()):
         starting_field_position
         down
@@ -100,6 +102,7 @@ def parse_plays(plays_data):
 
 
     import pdb; pdb.set_trace()
+    """
 
 
 drive_mapping = {
