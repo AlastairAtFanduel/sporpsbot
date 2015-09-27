@@ -78,14 +78,27 @@ def mapping_parse(mapping_dict, target, data):
             data_dict[fld] = data[key]
     return target(**data_dict)
 
-
-
 state_flds = ['yrdln', 'team', 'qtr', 'time']
 state_nt = namedtuple('state_nt', state_flds)
 parse_state = partial(parse_dataset, state_nt)
 
 
 def parse_plays(plays_data):
+    for play_id, play_data in sorted(plays_data.items()):
+        starting_field_position
+        down
+        time
+        ydsnet
+        ydstogo
+        team_in_possesion
+        desc
+        note
+        #sp??
+        players
+            player_id, player_data # sorted by sequence
+                ['playerName', 'clubcode', 'yards', 'statId', 'sequence'}]
+
+
     import pdb; pdb.set_trace()
 
 
