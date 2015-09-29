@@ -150,6 +150,7 @@ def get_team_injuries(access_token, team_id, current_week):
     injury_query = '&'.join([query, fields_selection])
     url = 'https://api.nfl.com/v1/teams/{}?{}'.format(team_id, injury_query)
     team_injuries = get_data(access_token, url)
+    import pdb; pdb.set_trace()
     return team_injuries
 
 
