@@ -42,7 +42,7 @@ import os
 import requests
 from collections import namedtuple
 from functools import partial
-
+from collections import defaultdict
 from nfldata2.common import mapping_parse
 
 INJURY_FOLDER = os.path.join(os.path.dirname(__file__), 'injury_data')
@@ -50,15 +50,19 @@ ROSTER_FOLDER = os.path.join(os.path.dirname(__file__), 'roster_data')
 TEAMS_FOLDER = os.path.join(os.path.dirname(__file__), 'teams_data')
 
 def dump_today(teams, injury, roster):
-    file_name = "{}.json".format(date.today().isoformat())
+    file_name = "{}.json".format(datetime.date.today().isoformat())
+
+    teams_file = os.path.join(TEAMS_FOLDER, file_name)
+    with open(teams_file, 'w') as tfile:
+        json.dump(teams, tfile, indent=4, separators=(',', ': '))
 
     injury_file = os.path.join(INJURY_FOLDER, file_name)
     with open(injury_file, 'w') as ifile:
-        json.dump(injury, ifile)
+        json.dump(injury, ifile, indent=4, separators=(',', ': '))
 
     roster_file = os.path.join(ROSTER_FOLDER, file_name)
     with open(roster_file, 'w') as rfile:
-        json.dump(roster, rfile)
+        json.dump(roster, rfile, indent=4, separators=(',', ': '))
 
 
 
@@ -86,16 +90,7 @@ team_mapping = {
                 }
 team_nt = namedtuple('team_nt', team_mapping.keys())
 
-def get_teams(access_token):
-    query = '{"$query":{"season":2015},"$take":40}&fs={id,season,fullName,nickName,abbr,teamType,conference{abbr},division{abbr}}'
 
-    headers = {
-        'Authorization': 'Bearer {}'.format(access_token),
-    }
-    data = requests.get('https://api.nfl.com/v1/teams?s={}'.format(query), headers=headers)
-    teams = data.json()
-
-    return [mapping_parse(team_mapping, team_nt, team) for team in teams['data']]
 
 player_injury_mapping = {'status', 
                          'practiceStatus',
@@ -108,26 +103,75 @@ player_injury_mapping = {'status',
                          'id'
                          }
 
-def get_team_injuries(access_token, team_id):
-    injury_query = '{"$query":{"season":2015},"$take":40}&fs={id,seasoinjuriesn,fullName,injuries,nickName,abbr,teamType,conference{abbr},division{abbr},injuries{id,type,person{firstName,lastName,},injury,injuryStatus,practice,practiceStatus,position,status}}'
 
+
+
+def get_data(access_token, url):
     headers = {
         'Authorization': 'Bearer {}'.format(access_token),
     }
-    data = requests.get('https://api.nfl.com/v1/teams/{}?s={}'.format(team_id, injury_query), headers=headers)
-    team_injuries = data.json()
+    raw_data = requests.get(url, headers=headers)
+    data = raw_data.json()
+    return data
 
+
+def get_teams(access_token):
+    query = '{"$query":{"season":2015}}&fs={id,season,fullName,nickName,abbr,teamType,conference{abbr},division{abbr}}'
+    url = 'https://api.nfl.com/v1/teams?s={}'.format(query)
+    teams = get_data(access_token, url)
+
+    return [mapping_parse(team_mapping, team_nt, team) for team in teams['data']]
+
+def get_current_week(access_token):
+    url = 'https://api.nfl.com/v1/currentWeek?fs={name,week,seasonType,seasonTypeOrder,season}'
+    current_week = get_data(access_token, url)
+    #{u'week': 3, u'season': 2015, u'seasonTypeOrder': None, u'seasonType': u'REG', u'name': u'Week 3'}
+    return current_week
+
+def get_team_roster(access_token, team_id, current_week):
+    depth_txt = 'depthChart{person{id,firstName,lastName},unit,depthOrder,positionAbbr}'
+    roster_txt = 'roster{ week, id,firstName,lastName,displayName,birthDate}'
+    fields_selection = 'fs={{id,season,fullName,nickName,abbr,{},{}}}'.format(depth_txt, roster_txt)
+
+
+    query = 's={{"$query":{{"season":2015,"week": {}}}}}'.format(current_week)
+    injury_query = '&'.join([query, fields_selection])
+    url = 'https://api.nfl.com/v1/teams/{}?{}'.format(team_id, injury_query)
+    team_roster = get_data(access_token, url)
+    return team_roster
+
+def get_team_injuries(access_token, team_id, current_week):
+    injures_txt = 'injuries{id,type,person{firstName,lastName,id},injury,injuryStatus,practice,practiceStatus,status}'
+    depth_txt = 'depthChart{person{id,firstName,lastName},unit,depthOrder,positionAbbr}'
+    stats_txt = '' #regTeamSeasonStats{gamesPlayed,teamStats{passing}}'
+    fields_selection = 'fs={{id,season,fullName,nickName,abbr,{},{},{}}}'.format(injures_txt,depth_txt, stats_txt)
+
+    query = 's={{"$query":{{"season":2015,"week": {}}}}}'.format(current_week)
+    injury_query = '&'.join([query, fields_selection])
+    url = 'https://api.nfl.com/v1/teams/{}?{}'.format(team_id, injury_query)
+    team_injuries = get_data(access_token, url)
     return team_injuries
 
-from collections import defaultdict
-def get_injures(access_token, teams):
-    injures = defaultdict(list)
+
+def get_rosters(access_token, teams, current_week):
+    rosters = defaultdict(list)
     for team in teams:
-        team_injuries = get_team_injuries(access_token, team.id)
+        team_roster = get_team_roster(access_token, team.id, current_week)
+        rosters[team.id] = team_roster
+    return rosters
+
+def get_injures(access_token, teams, current_week):
+    injuries = defaultdict(list)
+    for team in teams:
+        team_injuries = get_team_injuries(access_token, team.id, current_week)
         injuries[team.id] = team_injuries
-        import pdb; pdb.set_trace()
+    return injuries
 
 
 access_token = get_access_token()
+week = get_current_week(access_token)
+current_week = week['week']
 teams = get_teams(access_token)
-injures = get_injures(access_token, teams)
+injuries = get_injures(access_token, teams, current_week)
+rosters = get_rosters(access_token, teams, current_week)
+dump_today(teams, injuries, rosters)
