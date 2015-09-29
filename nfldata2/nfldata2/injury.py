@@ -40,12 +40,16 @@ import datetime
 import json
 import os
 import requests
+from collections import namedtuple
+from functools import partial
+
+from nfldata2.common import mapping_parse
 
 INJURY_FOLDER = os.path.join(os.path.dirname(__file__), 'injury_data')
 ROSTER_FOLDER = os.path.join(os.path.dirname(__file__), 'roster_data')
+TEAMS_FOLDER = os.path.join(os.path.dirname(__file__), 'teams_data')
 
-
-def dump_today(injury, roster):
+def dump_today(teams, injury, roster):
     file_name = "{}.json".format(date.today().isoformat())
 
     injury_file = os.path.join(INJURY_FOLDER, file_name)
@@ -56,25 +60,74 @@ def dump_today(injury, roster):
     with open(roster_file, 'w') as rfile:
         json.dump(roster, rfile)
 
-playload = {"grant_type": "client_credentials",
-            "client_id": "dyZHpNCWN5iuPx1gdbE3Dx9JAJIzZSCQ",
-            "client_secret": "abD8E45RS31lZIHZhqoev5Zr78JO8j4W"
-            }
-r = requests.post('https://api.nfl.com/v1/oauth/token', params=playload)
-res = r.json()
-
-access_token = res['access_token']
-
-query = '{"$query":{"season":2015},"$take":40}&fs={id,season,fullName,nickName,abbr,teamType,conference{abbr},division{abbr}}'
-
-headers = {
-    'Authorization': 'Bearer {}'.format(access_token),
-}
-
-data = requests.get('https://api.nfl.com/v1/teams?s={}'.format(query), headers=headers)
-print data.json()
 
 
-import pdb; pdb.set_trace()
+def get_access_token():
+    playload = {"grant_type": "client_credentials",
+                "client_id": "dyZHpNCWN5iuPx1gdbE3Dx9JAJIzZSCQ",
+                "client_secret": "abD8E45RS31lZIHZhqoev5Zr78JO8j4W"
+                }
+    r = requests.post('https://api.nfl.com/v1/oauth/token', params=playload)
+    res = r.json()
 
-assert r.status
+    access_token = res['access_token']
+    return access_token
+
+
+team_mapping = {
+                'conference': ('conference', None),
+                'division': ('division', None),
+                'season': ('season', None),
+                'type': ('teamType', None),
+                'abbr': ('abbr', None),
+                'fullname': ('fullName', None),
+                'nickname': ('nickName', None),
+                'id': ('id', None)
+                }
+team_nt = namedtuple('team_nt', team_mapping.keys())
+
+def get_teams(access_token):
+    query = '{"$query":{"season":2015},"$take":40}&fs={id,season,fullName,nickName,abbr,teamType,conference{abbr},division{abbr}}'
+
+    headers = {
+        'Authorization': 'Bearer {}'.format(access_token),
+    }
+    data = requests.get('https://api.nfl.com/v1/teams?s={}'.format(query), headers=headers)
+    teams = data.json()
+
+    return [mapping_parse(team_mapping, team_nt, team) for team in teams['data']]
+
+player_injury_mapping = {'status', 
+                         'practiceStatus',
+                         'practice',
+                         'person',
+                         'injuryStatus',
+                         'position',
+                         'injury',
+                         'type',
+                         'id'
+                         }
+
+def get_team_injuries(access_token, team_id):
+    injury_query = '{"$query":{"season":2015},"$take":40}&fs={id,seasoinjuriesn,fullName,injuries,nickName,abbr,teamType,conference{abbr},division{abbr},injuries{id,type,person{firstName,lastName,},injury,injuryStatus,practice,practiceStatus,position,status}}'
+
+    headers = {
+        'Authorization': 'Bearer {}'.format(access_token),
+    }
+    data = requests.get('https://api.nfl.com/v1/teams/{}?s={}'.format(team_id, injury_query), headers=headers)
+    team_injuries = data.json()
+
+    return team_injuries
+
+from collections import defaultdict
+def get_injures(access_token, teams):
+    injures = defaultdict(list)
+    for team in teams:
+        team_injuries = get_team_injuries(access_token, team.id)
+        injuries[team.id] = team_injuries
+        import pdb; pdb.set_trace()
+
+
+access_token = get_access_token()
+teams = get_teams(access_token)
+injures = get_injures(access_token, teams)

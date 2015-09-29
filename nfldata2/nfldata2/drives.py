@@ -1,5 +1,8 @@
 from collections import namedtuple
 from functools import partial
+
+from nfldata2.common import mapping_parse, parse_dataset
+
 #List of plays
 #List of drives
 
@@ -65,18 +68,8 @@ from functools import partial
 #X vs Y in cat z.  Rate them both.  Just take an average.
     # What is the most likley
 
-def parse_dataset(cls, data_dict):   # Could map the data here
-    return cls(**data_dict)
 
-def mapping_parse(mapping_dict, target, data):
-    data_dict = {}
-    for fld, mappings in mapping_dict.items():
-        key, deseriliser = mappings
-        if deseriliser is not None:
-            data_dict[fld] = deseriliser(data[key])
-        else:
-            data_dict[fld] = data[key]
-    return target(**data_dict)
+
 
 state_flds = ['yrdln', 'team', 'qtr', 'time']
 state_nt = namedtuple('state_nt', state_flds)

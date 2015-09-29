@@ -1,0 +1,26 @@
+#---
+# Store injury data, now
+#---
+
+
+
+#---
+# ELO percentage chance to win is propotional to score.
+#---
+
+
+
+#---
+# Graphs I would love
+#---
+
+
+|      /-----
+| /----
+|/
++------------->
+
+WR  each player snapcounts, daily player injury info
+WB  each player snap counts, daily player injury info
+TE   each player snap counts, daily player injury info
+

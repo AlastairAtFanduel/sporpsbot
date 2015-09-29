@@ -5,6 +5,19 @@ def game_file_path(game_id):
     file_path = os.path.join(os.path.split(__file__)[0], 'gamecenter-json', '{}.json.gz'.format(game_id))
     return file_path
 
+def parse_dataset(cls, data_dict):   # Could map the data here
+    return cls(**data_dict)
+
+def mapping_parse(mapping_dict, target, data):
+    data_dict = {}
+    for fld, mappings in mapping_dict.items():
+        key, deseriliser = mappings
+        if deseriliser is not None:
+            data_dict[fld] = deseriliser(data[key])
+        else:
+            data_dict[fld] = data[key]
+    return target(**data_dict)
+
 teams = [
     ['ARI', 'Arizona', 'Cardinals', 'Arizona Cardinals'],
     ['ATL', 'Atlanta', 'Falcons', 'Atlanta Falcons'],
