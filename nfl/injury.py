@@ -11,15 +11,15 @@ import nfl.common
 def dump_today(paths, teams, injury, roster):
     file_name = "{}.json".format(datetime.date.today().isoformat())
 
-    teams_file = os.path.join(TEAMS_FOLDER, file_name)
+    teams_file = os.path.join(paths.teams_folder, file_name)
     with open(teams_file, 'w') as tfile:
         json.dump(teams, tfile, indent=4, separators=(',', ': '))
 
-    injury_file = os.path.join(INJURY_FOLDER, file_name)
+    injury_file = os.path.join(paths.injury_folder, file_name)
     with open(injury_file, 'w') as ifile:
         json.dump(injury, ifile, indent=4, separators=(',', ': '))
 
-    roster_file = os.path.join(ROSTER_FOLDER, file_name)
+    roster_file = os.path.join(paths.roster_folder, file_name)
     with open(roster_file, 'w') as rfile:
         json.dump(roster, rfile, indent=4, separators=(',', ': '))
 
@@ -105,7 +105,6 @@ def get_team_injuries(access_token, team_id, current_week):
     injury_query = '&'.join([query, fields_selection])
     url = 'https://api.nfl.com/v1/teams/{}?{}'.format(team_id, injury_query)
     team_injuries = get_data(access_token, url)
-    import pdb; pdb.set_trace()
     return team_injuries
 
 

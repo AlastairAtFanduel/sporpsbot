@@ -5,7 +5,7 @@ from collections import namedtuple
 paths = [
         'schedule',
         'players',
-        'gamecenter'
+        'gamecenter',
         'injury_folder',
         'roster_folder',
         'teams_folder'

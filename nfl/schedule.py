@@ -59,10 +59,10 @@ def parse_schedule(raw_schedule=None):
         raw_schedule = {}
 
     schedule = OrderedDict()
-    for game_id, info in raw_data.get('games', []):
+    for game_id, info in raw_schedule.get('games', []):
         schedule[game_id] = info
 
-    last_updated = datetime.datetime.utcfromtimestamp(raw_data.get('time', 0))
+    last_updated = datetime.datetime.utcfromtimestamp(raw_schedule.get('time', 0))
     return schedule, last_updated
 
 
@@ -129,7 +129,7 @@ def get_week_schedule(year, stype, week):
 def get_latest_schedule(sched_json_file):
     # Delete the file to rebuild
     # In future could check for differences
-    with open(schedule_file_path) as jsonf:
+    with open(sched_json_file) as jsonf:
         try:
             raw_data = json.loads(jsonf.read())
         except IOError:
