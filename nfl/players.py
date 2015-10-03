@@ -13,9 +13,6 @@ Some players may be 50/50.  Play not Play
 import json
 import os
 
-PLAYER_JSON_FILE = os.path.join(os.path.dirname(__file__), 'players.json')
-
-
 class Player(object):
     """
     Player instances represent meta information about a single player.
@@ -43,7 +40,7 @@ class Player(object):
         self.status = data.get('status', '')
 
 
-def load_players():
-    with open(PLAYER_JSON_FILE) as f:
+def load_players(player_file):
+    with open(player_file) as f:
         players = json.loads(f.read())
     return [Player(p) for pid, p in players.iteritems()]

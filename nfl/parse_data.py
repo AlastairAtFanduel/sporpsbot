@@ -10,8 +10,6 @@ from nfl.schedule import get_latest_schedule
 from nfl.grouped_stats import parse_grouped_stats
 from nfl.drives import parse_drives
 
-PLAYERS = load_players()
-
 def get_game_data(game_center_path, game_id):
     file_path = game_file_path(game_center_path, game_id)
     with gzip.open(file_path) as f:

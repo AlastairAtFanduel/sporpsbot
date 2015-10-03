@@ -14,4 +14,7 @@ def update(data_folder):
     print("Downloading latest games")
     download_missing_games(paths.gamecenter, schedule)
 
+    print("Updating injures")
+    update_injures(paths)
+
 
