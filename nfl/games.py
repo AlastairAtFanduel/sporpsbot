@@ -5,7 +5,7 @@ def after_game(game_id):
     month = game_id[4:6]
     day = game_id[6:8]
     game_date = datetime.datetime(year, month, day)
-    return datetime.datetime.now() - game_date > 1:
+    return datetime.datetime.now() - game_date > 1
 
 def download_games(game_ids):
     file_paths = []

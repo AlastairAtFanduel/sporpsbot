@@ -2,8 +2,6 @@ import gzip
 import os.path
 from collections import namedtuple
 
-PLAYER_JSON_FILE = os.path.join(, )
-
 paths = [
         'schedule',
         'players',
@@ -16,11 +14,11 @@ paths_nt = namedtuple("paths_nt", paths)
 
 def get_paths(data_folder):
     return paths_nt(
-                    schedule = os.path.join(data_folder, 'schedule.json')
-                    players = os.path.join(data_folder, 'players.json')
-                    gamecenter = os.path.join(data_folder, 'gamecenter-json')
-                    injury_folder = os.path.join(data_folder, 'injury_data')
-                    roster_folder = os.path.join(data_folder, 'roster_data')
+                    schedule = os.path.join(data_folder, 'schedule.json'),
+                    players = os.path.join(data_folder, 'players.json'),
+                    gamecenter = os.path.join(data_folder, 'gamecenter-json'),
+                    injury_folder = os.path.join(data_folder, 'injury_data'),
+                    roster_folder = os.path.join(data_folder, 'roster_data'),
                     teams_folder = os.path.join(data_folder, 'teams_data')
                     )
 
