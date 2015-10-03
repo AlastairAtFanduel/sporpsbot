@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import nfl.schedule
 import nfl.update
 
