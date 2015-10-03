@@ -2,18 +2,19 @@
 
 import nfl.schedule
 import nfl.update
-
+import nfl.teams_matchups
+import nfl.common
 
 import os.path
 from nfl.update import update
 
 data_path = os.path.join(os.path.dirname(__file__), 'data')
-schedule = update(data_path)
+schedule, paths = update(data_path)
 
 y, p, w = nfl.schedule.current_nfl_week()
-all_weeks_games = previous_weeks_games(w)
+all_weeks_games = nfl.teams_matchups.previous_weeks_games(paths.gamecenter, schedule, w)
 
-print_overall_averages(all_weeks_games)
+nfl.teams_matchups.print_overall_averages(all_weeks_games)
 
 this_weeks_games = nfl.schedule.get_week_schedule(y, p, w)
 for game in this_weeks_games:
@@ -22,9 +23,9 @@ for game in this_weeks_games:
     print("="*80)
     print("{} vs {}".format(home, away))
     print("record {}: ".format(home))
-    print_team_stats(home)
+    nfl.teams_matchups.print_team_stats(all_weeks_games, home)
     print("record {}: ".format(away))
-    print_team_stats(away)
+    nfl.teams_matchups.print_team_stats(all_weeks_games, away)
     
 # Oposition average_points, averge conceded
 

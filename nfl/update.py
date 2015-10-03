@@ -15,6 +15,6 @@ def update(data_folder):
     print("Updating injures")
     nfl.injury.update_injures(paths)
 
-    return schedule
+    return schedule, paths
 
 
