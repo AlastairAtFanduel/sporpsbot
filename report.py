@@ -3,7 +3,12 @@
 import nfl.schedule
 import nfl.update
 
-nfl.schedule.download_missing_games(game_center_path)
+
+import os.path
+from nfl.update import update
+
+data_path = os.path.join(os.path.dirname(__file__), 'data')
+schedule = update(data_path)
 
 y, p, w = nfl.schedule.current_nfl_week()
 all_weeks_games = previous_weeks_games(w)

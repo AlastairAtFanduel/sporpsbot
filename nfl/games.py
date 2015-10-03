@@ -12,6 +12,11 @@ def after_game(game_id):
     game_date = datetime.datetime(year, month, day)
     return (datetime.datetime.now() - game_date).days > 1
 
+def download_missing_games(gamecenter_path, schedule):
+    game_ids = schedule.keys()
+    past_games = [gid for gid in game_ids if nfl.games.after_game(gid)]
+    nfl.games.download_games(gamecenter_path, past_games)
+
 def download_games(gamecenter_path, game_ids):
     game_id_file_path_dict = {
                                 os.path.basename(nfl.common.game_file_path(gamecenter_path, game_id)): game_id 

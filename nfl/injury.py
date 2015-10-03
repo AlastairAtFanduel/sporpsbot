@@ -8,20 +8,10 @@ from collections import defaultdict
 import nfl.common
 
 
-def dump_today(paths, teams, injury, roster):
-    file_name = "{}.json".format(datetime.date.today().isoformat())
+def dump_today(file_name, data):
+    with open(file_name, 'w') as f:
+        json.dump(data, f, indent=4, separators=(',', ': '))
 
-    teams_file = os.path.join(paths.teams_folder, file_name)
-    with open(teams_file, 'w') as tfile:
-        json.dump(teams, tfile, indent=4, separators=(',', ': '))
-
-    injury_file = os.path.join(paths.injury_folder, file_name)
-    with open(injury_file, 'w') as ifile:
-        json.dump(injury, ifile, indent=4, separators=(',', ': '))
-
-    roster_file = os.path.join(paths.roster_folder, file_name)
-    with open(roster_file, 'w') as rfile:
-        json.dump(roster, rfile, indent=4, separators=(',', ': '))
 
 def get_access_token():
     playload = {"grant_type": "client_credentials",
@@ -123,10 +113,18 @@ def get_injures(access_token, teams, current_week):
     return injuries
 
 def update_injures(paths):
-    access_token = get_access_token()
-    week = get_current_week(access_token)
-    current_week = week['week']
-    teams = get_teams(access_token)
-    injuries = get_injures(access_token, teams, current_week)
-    rosters = get_rosters(access_token, teams, current_week)
-    dump_today(paths, teams, injuries, rosters)
+    file_name = "{}.json".format(datetime.date.today().isoformat())
+    teams_file = os.path.join(paths.teams_folder, file_name)
+    injury_file = os.path.join(paths.injury_folder, file_name)
+    roster_file = os.path.join(paths.roster_folder, file_name)
+
+    if not all(os.path.exists(f) for f in [teams_file, injury_file, roster_file]):
+        access_token = get_access_token()
+        week = get_current_week(access_token)
+        current_week = week['week']
+        teams = get_teams(access_token)
+        injuries = get_injures(access_token, teams, current_week)
+        rosters = get_rosters(access_token, teams, current_week)
+        dump_today(teams_file, teams)
+        injury_file(teams_file, injuries)
+        roster_file(teams_file, rosters)
