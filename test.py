@@ -1,1 +1,1 @@
-from nfldata2 import parse_data
+from nfl import parse_data

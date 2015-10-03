@@ -1,7 +1,7 @@
 from collections import namedtuple
 from functools import partial
 
-from nfldata2.common import mapping_parse, parse_dataset
+from nfl.common import mapping_parse, parse_dataset
 
 #List of plays
 #List of drives

@@ -1,8 +1,14 @@
 import gzip
 import os.path
+from collections import namedtuple
 
-def game_file_path(game_id):
-    file_path = os.path.join(os.path.split(__file__)[0], 'gamecenter-json', '{}.json.gz'.format(game_id))
+paths_nt = namedtuple("paths_nt", ['schedule', 'gamecenter'])
+def get_paths(data_folder):
+        sched_json_file = os.path.join(data_folder, 'schedule.json')
+    game_center_path = os.path.join(data_folder, 'gamecenter-json')
+
+def game_file_path(game_center_path, game_id):
+    file_path = os.path.join(game_center_path, '{}.json.gz'.format(game_id))
     return file_path
 
 def parse_dataset(cls, data_dict):   # Could map the data here

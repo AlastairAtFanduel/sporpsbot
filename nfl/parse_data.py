@@ -4,16 +4,16 @@ import json
 from collections import namedtuple
 import gzip
 
-from nfldata2.common import game_file_path
-from nfldata2.players import load_players
-from nfldata2.schedule import get_latest_schedule
-from nfldata2.grouped_stats import parse_grouped_stats
-from nfldata2.drives import parse_drives
+from nfl.common import game_file_path, get_paths
+from nfl.players import load_players
+from nfl.schedule import get_latest_schedule
+from nfl.grouped_stats import parse_grouped_stats
+from nfl.drives import parse_drives
 
 PLAYERS = load_players()
 
-def get_game_data(game_id):
-    file_path = game_file_path(game_id)
+def get_game_data(game_center_path, game_id):
+    file_path = game_file_path(game_center_path, game_id)
     with gzip.open(file_path) as f:
         data = f.read()
     return data
@@ -23,8 +23,8 @@ game_nt = namedtuple('game_nt', ['home', 'away'])
 game_data_nt = namedtuple('game_data_nt', ['name', 'score', 'stats'])
 
 
-def parse_game_file(game_id):
-    raw_data = get_game_data(game_id)
+def parse_game_file(game_center_path, game_id):
+    raw_data = get_game_data(game_center_path, game_id)
     data = json.loads(raw_data)[game_id]
     assert data['qtr'] in ('Final', 'final overtime')
 
@@ -44,8 +44,9 @@ def parse_game_file(game_id):
     return game
 
 
-def load_week(week, year=2015, phase='REG'):
-    schedule = get_latest_schedule()
+def load_week(data_folder, week, year=2015, phase='REG'):
+    paths = get_paths(data_folder)
+    schedule = get_latest_schedule(paths.schedule)
 
     matching_games = []
     for game in schedule.values():

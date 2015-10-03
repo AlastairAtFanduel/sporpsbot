@@ -43,7 +43,7 @@ import requests
 from collections import namedtuple
 from functools import partial
 from collections import defaultdict
-from nfldata2.common import mapping_parse
+import nfl.common
 
 INJURY_FOLDER = os.path.join(os.path.dirname(__file__), 'injury_data')
 ROSTER_FOLDER = os.path.join(os.path.dirname(__file__), 'roster_data')
@@ -120,7 +120,7 @@ def get_teams(access_token):
     url = 'https://api.nfl.com/v1/teams?s={}'.format(query)
     teams = get_data(access_token, url)
 
-    return [mapping_parse(team_mapping, team_nt, team) for team in teams['data']]
+    return [nfl.common.mapping_parse(team_mapping, team_nt, team) for team in teams['data']]
 
 def get_current_week(access_token):
     url = 'https://api.nfl.com/v1/currentWeek?fs={name,week,seasonType,seasonTypeOrder,season}'

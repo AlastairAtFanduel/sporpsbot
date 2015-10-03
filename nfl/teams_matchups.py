@@ -1,15 +1,14 @@
-import nfldata2.parse_data
-import nfldata2.schedule 
+import nfl.parse_data
+import nfl.schedule
 
 team_stats = {}
 
 def previous_weeks_games(current_week):
     all_weeks_games = []
     for w in range(1, current_week):
-        games = nfldata2.parse_data.load_week(w)
+        games = nfl.parse_data.load_week(w)
         all_weeks_games.append(games)
     return all_weeks_games
-
 
 def print_overall_averages(all_weeks_games):
     total_points = 0
@@ -26,17 +25,12 @@ def print_overall_averages(all_weeks_games):
             passing_yards += game.away.stats.team.passing_yds
             rushing_yards += game.away.stats.team.rushing_yds
 
-
     print("Overall stats---")
     print("Average points: {:.2f}".format(float(total_points)/(2*number_of_games)))
     print("Average Rushing yards: {:.2f}".format(float(rushing_yards)/(2*number_of_games)))
     print("Average passing yards: {:.2f}".format(float(passing_yards)/(2*number_of_games)))
 
-
-y, p, w = nfldata2.schedule.current_nfl_week()
-all_weeks_games = previous_weeks_games(w)
-
-def get_teams_games(team):
+def get_teams_games(all_weeks_games, team):
     matching_games = []
     for week_games in all_weeks_games:
         for game in week_games:
@@ -73,8 +67,6 @@ def get_team_stats(team, exclude_team=None):
     us, them = get_sides(games, team)
     other_teams = [t.name for t in them]
     return team_stats(get_side_stats(us), get_side_stats(them), other_teams)
-
-
 
 def print_team_stats(team):
     games = get_teams_games(team)
@@ -121,18 +113,3 @@ def print_team_stats(team):
         oteam_stats = get_team_stats(oteam, exclude_team=team)
         print("\t\t {} {}".format(oteam, oteam_stats.scored.rushing_yards))
 
-
-print_overall_averages(all_weeks_games)
-
-this_weeks_games = nfldata2.schedule.get_week_schedule(y, p, w)
-for game in this_weeks_games:
-    home = game['home']
-    away = game['away']
-    print("="*80)
-    print("{} vs {}".format(home, away))
-    print("record {}: ".format(home))
-    print_team_stats(home)
-    print("record {}: ".format(away))
-    print_team_stats(away)
-    
-# Oposition average_points, averge conceded
