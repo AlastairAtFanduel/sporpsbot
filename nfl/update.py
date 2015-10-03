@@ -1,5 +1,6 @@
 import nfl.common
 import nfl.games
+import nfl.injury
 
 def download_missing_games(gamecenter_path, schedule):
     game_ids = schedule.keys()
@@ -11,10 +12,11 @@ def update(data_folder):
 
     print("Parsing schedule")
     schedule = get_latest_schedule(paths.schedule)
+
     print("Downloading latest games")
     download_missing_games(paths.gamecenter, schedule)
 
     print("Updating injures")
-    update_injures(paths)
+    nfl.injury.update_injures(paths)
 
 
