@@ -114,7 +114,7 @@ def get_week_schedule(year, stype, week):
 def update_schedule(schedule):
     # Give a blank schedule to to rewrite
     known_weeks = set()
-    for game_id, schedule_data in schedule:
+    for game_id, schedule_data in schedule.items():
         week = schedule_data['week']
         year = schedule_data['year']
         phase = schedule_data['season_type']
