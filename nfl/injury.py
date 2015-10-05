@@ -126,5 +126,5 @@ def update_injures(paths):
         injuries = get_injures(access_token, teams, current_week)
         rosters = get_rosters(access_token, teams, current_week)
         dump_today(teams_file, teams)
-        injury_file(teams_file, injuries)
-        roster_file(teams_file, rosters)
+        dump_today(injury_file, injuries)
+        dump_today(roster_file, rosters)

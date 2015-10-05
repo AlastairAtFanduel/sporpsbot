@@ -58,6 +58,10 @@ def get_side_stats(sides):
     average_rushing_yards = float(sum(s.stats.team.rushing_yds for s in sides))/len(sides)
     return stats(average_points_scored, average_passing_yards, average_rushing_yards)
 
+def get_game_stats(us, them):
+    return team_stats(get_side_stats([us]), get_side_stats([them]), None)
+
+
 def get_team_stats(all_weeks_games, team, exclude_team=None):
     games = get_teams_games(all_weeks_games, team)
     if exclude_team:
@@ -66,13 +70,17 @@ def get_team_stats(all_weeks_games, team, exclude_team=None):
     other_teams = [t.name for t in them]
     return team_stats(get_side_stats(us), get_side_stats(them), other_teams)
 
-def print_team_stats(all_weeks_games, team):
-    games = get_teams_games(all_weeks_games, team)
+def print_team_stats(all_weeks_games, team_name):
+    games = get_teams_games(all_weeks_games, team_name)
     
     print("\tprevious games---")
+    extra_data = {}
     for game in games:
-        opposition = game.team_1.name if team != game.team_1.name else game.team_2.name
-        op_stats = get_team_stats(all_weeks_games, opposition, exclude_team=team)
+        team = game.team_1 if team_name == game.team_1.name else game.team_2
+        opposition_team = game.team_1 if team_name != game.team_1.name else game.team_2
+        opposition = opposition_team.name
+        extra_data[opposition] = get_game_stats(team, opposition_team)
+        op_stats = get_team_stats(all_weeks_games, opposition, exclude_team=team_name)
         print("\t\t {} {} : {} {}    ({}: avg_pts: +{} -{})".format(game.team_1.name, 
                                                                     game.team_1.score,
                                                                     game.team_2.name,
@@ -83,31 +91,31 @@ def print_team_stats(all_weeks_games, team):
                                                                     )
               )
     
-    us, them = get_sides(games, team)
+    us, them = get_sides(games, team_name)
 
-    team_stats = get_team_stats(all_weeks_games, team)
+    team_stats = get_team_stats(all_weeks_games, team_name)
     print("\tAverage points scored: {}".format(team_stats.scored.points))
     for oteam in team_stats.other_teams:
-        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team)
-        print("\t\t {} {}".format(oteam, oteam_stats.conceded.points))
+        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team_name)
+        print("\t\t {} avg:{}  we got:{}".format(oteam, oteam_stats.conceded.points, extra_data[oteam].scored.points))
     print("\tAverage points conceded: {}".format(team_stats.conceded.points)) 
     for oteam in team_stats.other_teams:
-        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team)
-        print("\t\t {} {}".format(oteam, oteam_stats.scored.points))
+        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team_name)
+        print("\t\t {} avg:{}  we got:{}".format(oteam, oteam_stats.scored.points, extra_data[oteam].conceded.points))
     print("\tAverage passing yards scored: {}".format(team_stats.scored.passing_yards))
     for oteam in team_stats.other_teams:
-        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team)
-        print("\t\t {} {}".format(oteam, oteam_stats.conceded.passing_yards))
+        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team_name)
+        print("\t\t {} avg:{}  we got:{}".format(oteam, oteam_stats.conceded.passing_yards, extra_data[oteam].scored.passing_yards))
     print("\tAverage passing yards conceded: {}".format(team_stats.conceded.passing_yards)) 
     for oteam in team_stats.other_teams:
-        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team)
-        print("\t\t {} {}".format(oteam, oteam_stats.scored.passing_yards))
+        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team_name)
+        print("\t\t {} avg:{}  we got:{}".format(oteam, oteam_stats.scored.passing_yards, extra_data[oteam].conceded.passing_yards))
     print("\tAverage rushing yards scored: {}".format(team_stats.scored.rushing_yards))
     for oteam in team_stats.other_teams:
-        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team)
-        print("\t\t {} {}".format(oteam, oteam_stats.conceded.rushing_yards))
+        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team_name)
+        print("\t\t {} avg:{}  we got:{}".format(oteam, oteam_stats.conceded.rushing_yards, extra_data[oteam].scored.rushing_yards))
     print("\tAverage rushing yards conceded: {}".format(team_stats.conceded.rushing_yards)) 
     for oteam in team_stats.other_teams:
-        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team)
-        print("\t\t {} {}".format(oteam, oteam_stats.scored.rushing_yards))
+        oteam_stats = get_team_stats(all_weeks_games, oteam, exclude_team=team_name)
+        print("\t\t {} avg:{}  we got:{}".format(oteam, oteam_stats.scored.rushing_yards, extra_data[oteam].conceded.rushing_yards))
 
