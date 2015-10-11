@@ -31,7 +31,7 @@ def parse_game_file(game_center_path, game_id):
     home_data['score'] = int(data['home']['score']['T'])
     home_data['stats'] = parse_grouped_stats(data['home']['stats'])
     home_data['home'] = True
-    
+
     away_data = {}
     away_data['name'] = data['away']['abbr']
     away_data['score'] = int(data['away']['score']['T'])
@@ -49,7 +49,7 @@ def load_week(game_center_path, schedule, week, year=2015, phase='REG'):
     for game in schedule.values():
         if (game['year'], game['season_type'], game['week']) == (year, phase, week):
             matching_games.append(game)
-    return [parse_game_file(game_center_path, game['eid']) for game in matching_games]
+    return [parse_game_file(game_center_path, game['game_id']) for game in matching_games]
 
 
 
