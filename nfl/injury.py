@@ -56,6 +56,8 @@ def get_data(access_token, url):
         'Authorization': 'Bearer {}'.format(access_token),
     }
     raw_data = requests.get(url, headers=headers)
+    if not raw_data.text.strip():
+        return {}
     data = raw_data.json()
     return data
 
