@@ -2,7 +2,7 @@ import os
 import datetime
 import urllib2
 import gzip
-
+import socket
 import nfl.common
 
 def after_game(game_id):
