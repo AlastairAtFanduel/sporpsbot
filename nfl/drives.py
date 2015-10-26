@@ -1,3 +1,4 @@
+import datetime
 from collections import namedtuple
 from functools import partial
 
@@ -93,16 +94,13 @@ def parse_plays(plays_data):
             player_id, player_data # sorted by sequence
                 ['playerName', 'clubcode', 'yards', 'statId', 'sequence'}]
 
-
-    import pdb; pdb.set_trace()
     """
+    import pdb; pdb.set_trace()
 
 # Not a singleton keep making new.
 # Have a pointer on a team game object to the current Field_Postion
 
 # From position x this team achived result y vs team z.
-
-
 
 
 class FieldPosition():
@@ -129,6 +127,10 @@ class FieldPosition():
 
 # starting position
 # final position
+
+def parse_time_delta(time_str):
+    """converts a MIN:SEC string into seconds"""
+    
 
 
 drive_mapping = {
@@ -158,12 +160,18 @@ drive_nt = namedtuple('drive_nt', drive_mapping.keys())
 def parse_drives(drives_data):
     drives = []
     for drive_id, drive_data in sorted(drives_data.items()):
-        import pdb; pdb.set_trace()
         if drive_id == 'crntdrv':   # crnt drive just maps to a number showing the curent drive id.
             continue
 
         drive_data['id'] = drive_id
         drive = mapping_parse(drive_mapping, drive_nt, drive_data)
+        import pdb; pdb.set_trace()
         drives.append(drive)
 
     return drives
+
+
+
+# Parsing game time, check with time delta.
+# Do I care about game time?  Perhaps I only care about time delta.
+# field prostion parsing
