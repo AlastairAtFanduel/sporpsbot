@@ -1,0 +1,450 @@
+[
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCW"
+        },
+        "Cardinals",
+        "ARI",
+        2015,
+        "Arizona Cardinals",
+        "TEAM",
+        "10043800-2015-b052-6897-15474db7f598"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCS"
+        },
+        "Falcons",
+        "ATL",
+        2015,
+        "Atlanta Falcons",
+        "TEAM",
+        "10040200-2015-8958-d7b0-fd35b353997c"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACN"
+        },
+        "Ravens",
+        "BAL",
+        2015,
+        "Baltimore Ravens",
+        "TEAM",
+        "10040325-2015-4ddf-6e65-2af71b01cbf5"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACE"
+        },
+        "Bills",
+        "BUF",
+        2015,
+        "Buffalo Bills",
+        "TEAM",
+        "10040610-2015-2431-6689-17cfc142447b"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCS"
+        },
+        "Panthers",
+        "CAR",
+        2015,
+        "Carolina Panthers",
+        "TEAM",
+        "10040750-2015-d670-348a-f05679fb5b29"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCN"
+        },
+        "Bears",
+        "CHI",
+        2015,
+        "Chicago Bears",
+        "TEAM",
+        "10040810-2015-8a24-4733-bf2f9602a6b8"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACN"
+        },
+        "Bengals",
+        "CIN",
+        2015,
+        "Cincinnati Bengals",
+        "TEAM",
+        "10040920-2015-5324-0c5c-a4ce7eb7e74a"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACN"
+        },
+        "Browns",
+        "CLE",
+        2015,
+        "Cleveland Browns",
+        "TEAM",
+        "10041050-2015-4e52-953c-76f1cbc5ec91"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCE"
+        },
+        "Cowboys",
+        "DAL",
+        2015,
+        "Dallas Cowboys",
+        "TEAM",
+        "10041200-2015-ad43-5d9c-79ba50d47bd5"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACW"
+        },
+        "Broncos",
+        "DEN",
+        2015,
+        "Denver Broncos",
+        "TEAM",
+        "10041400-2015-b7ad-278c-192d867a3777"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCN"
+        },
+        "Lions",
+        "DET",
+        2015,
+        "Detroit Lions",
+        "TEAM",
+        "10041540-2015-564f-d18b-79f9bb5e9110"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCN"
+        },
+        "Packers",
+        "GB",
+        2015,
+        "Green Bay Packers",
+        "TEAM",
+        "10041800-2015-70fe-a0a9-5ecce6216a26"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACS"
+        },
+        "Texans",
+        "HOU",
+        2015,
+        "Houston Texans",
+        "TEAM",
+        "10042120-2015-2930-ba3a-0af9b6c27b1e"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACS"
+        },
+        "Colts",
+        "IND",
+        2015,
+        "Indianapolis Colts",
+        "TEAM",
+        "10042200-2015-acc9-183e-3b42a70a74d0"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACS"
+        },
+        "Jaguars",
+        "JAC",
+        2015,
+        "Jacksonville Jaguars",
+        "TEAM",
+        "10042250-2015-d764-efe8-6088bff6beda"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACW"
+        },
+        "Chiefs",
+        "KC",
+        2015,
+        "Kansas City Chiefs",
+        "TEAM",
+        "10042310-2015-b36c-f014-739c8df910a1"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACE"
+        },
+        "Dolphins",
+        "MIA",
+        2015,
+        "Miami Dolphins",
+        "TEAM",
+        "10042700-2015-bffb-b6d0-f39ded3e2ce1"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCN"
+        },
+        "Vikings",
+        "MIN",
+        2015,
+        "Minnesota Vikings",
+        "TEAM",
+        "10043000-2015-c50c-ad8a-1cae3faa4bfb"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACE"
+        },
+        "Patriots",
+        "NE",
+        2015,
+        "New England Patriots",
+        "TEAM",
+        "10043200-2015-a12b-c824-0e7f22c11539"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCS"
+        },
+        "Saints",
+        "NO",
+        2015,
+        "New Orleans Saints",
+        "TEAM",
+        "10043300-2015-8d02-dabe-b1dcf382454c"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCE"
+        },
+        "Giants",
+        "NYG",
+        2015,
+        "New York Giants",
+        "TEAM",
+        "10043410-2015-6f64-1644-7cd322ea7694"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACE"
+        },
+        "Jets",
+        "NYJ",
+        2015,
+        "New York Jets",
+        "TEAM",
+        "10043430-2015-9e54-9d97-f5bc442ca5fe"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACW"
+        },
+        "Raiders",
+        "OAK",
+        2015,
+        "Oakland Raiders",
+        "TEAM",
+        "10042520-2015-eb82-b6f9-7feed29ee272"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCE"
+        },
+        "Eagles",
+        "PHI",
+        2015,
+        "Philadelphia Eagles",
+        "TEAM",
+        "10043700-2015-dc0c-c21e-b80d1513f549"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACN"
+        },
+        "Steelers",
+        "PIT",
+        2015,
+        "Pittsburgh Steelers",
+        "TEAM",
+        "10043900-2015-7343-7b00-805d879f996b"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACW"
+        },
+        "Chargers",
+        "SD",
+        2015,
+        "San Diego Chargers",
+        "TEAM",
+        "10044400-2015-7265-97a7-159cebe1f2f0"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCW"
+        },
+        "Seahawks",
+        "SEA",
+        2015,
+        "Seattle Seahawks",
+        "TEAM",
+        "10044600-2015-909f-b72e-bcd781cb7032"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCW"
+        },
+        "49ers",
+        "SF",
+        2015,
+        "San Francisco 49ers",
+        "TEAM",
+        "10044500-2015-9b4e-d3c4-31cfc94ce689"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCW"
+        },
+        "Rams",
+        "STL",
+        2015,
+        "St. Louis Rams",
+        "TEAM",
+        "10042510-2015-6909-74c6-1130cf4ee9c2"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCS"
+        },
+        "Buccaneers",
+        "TB",
+        2015,
+        "Tampa Bay Buccaneers",
+        "TEAM",
+        "10044900-2015-4bba-e8dc-58e09f0a75dc"
+    ],
+    [
+        {
+            "abbr": "AFC"
+        },
+        {
+            "abbr": "ACS"
+        },
+        "Titans",
+        "TEN",
+        2015,
+        "Tennessee Titans",
+        "TEAM",
+        "10042100-2015-cd33-7044-905d36ee1d1c"
+    ],
+    [
+        {
+            "abbr": "NFC"
+        },
+        {
+            "abbr": "NCE"
+        },
+        "Redskins",
+        "WAS",
+        2015,
+        "Washington Redskins",
+        "TEAM",
+        "10045110-2015-9778-38c7-d8ead0f0ba00"
+    ]
+]
